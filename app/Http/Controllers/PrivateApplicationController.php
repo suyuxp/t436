@@ -16,7 +16,9 @@ class PrivateApplicationController extends Controller
      */
     public function index(Request $request)
     {
-        $applications = ApplicationModel::where('username', $request->username)->get();
+        $applications = ApplicationModel::where('username', $request->username)
+                                        ->orderBy('priority', 'desc')
+                                        ->get();
 
         return response()->json($applications);
     }

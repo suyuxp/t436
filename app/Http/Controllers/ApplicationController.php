@@ -14,8 +14,12 @@ class ApplicationController extends Controller
      */
     public function index(Request $request)
     {
-        $applications['public']  = ApplicationModel::where('username', null)->get();
-        $applications['private'] = ApplicationModel::whereNotNull('username')->get();
+        $applications['public']  = ApplicationModel::where('username', null)
+                                                   ->orderBy('priority', 'desc')
+                                                   ->get();
+        $applications['private'] = ApplicationModel::whereNotNull('username')
+                                                   ->orderBy('priority', 'desc')
+                                                   ->get();
 
         return response()->json($applications);
     }

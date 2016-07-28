@@ -16,7 +16,10 @@ class PublicApplicationController extends Controller
      */
     public function index()
     {
-        $applications = ApplicationModel::whereNull('username')->get();
+        $applications = ApplicationModel::whereNull('username')
+                                        ->orderBy('priority', 'desc')
+                                        ->get();
+                                        
         return response()->json($applications);
     }
 
