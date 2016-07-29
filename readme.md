@@ -15,8 +15,8 @@ docker环境变量有:
 docker build -t t436 .
 
 // 运行单元测试
-docker run -it -e "DB_TYPE=mysql DB_HOST=127.0.0.1 DB_DATABASE=t436 DB_USERNAME=root DB_PASSWORD=123456" t436 /phptest.sh
+docker run -it -e "DB_TYPE=mysql DB_HOST=127.0.0.1 DB_DATABASE=t436 DB_USERNAME=root DB_PASSWORD=123456" index.alauda.cn/axf888/t436 /phptest.sh
 
 // 部署
-docker run -d -P -e "DB_TYPE=mysql DB_HOST=127.0.0.1 DB_DATABASE=t436 DB_USERNAME=root DB_PASSWORD=123456" t436
+docker run -d -P -e "DB_TYPE=mysql DB_HOST=127.0.0.1 DB_DATABASE=t436 DB_USERNAME=root DB_PASSWORD=123456" index.alauda.cn/axf888/t436
 ```
