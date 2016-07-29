@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\ApplicationModel;
 use Validator;
+use DB;
 
 class PublicApplicationController extends Controller
 {
@@ -96,6 +97,52 @@ class PublicApplicationController extends Controller
         $application->update($inputs);
 
         return response()->json($application, 200);
+    }
+
+    /**
+     * 排序
+     */
+    public function sort(Request $request)
+    {
+        $inputs = $request->all();
+        $validator = Validator::make($inputs, [
+            'ids'       => 'required|regex:#^([0-9]+,)+[0-9]+$#'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json('the format must be "1,2,3,..."');
+        }
+
+        // 必须是所有的公共应用
+        $ids = array_unique(explode(",", $inputs['ids']));
+        
+        foreach ($ids as $id) {
+            if (!ApplicationModel::where('id', $id)->whereNull('username')->first()) {
+                return response()->json("id $id is not exist");
+            }
+        }
+
+        $ord = count($ids);
+        if ($ord != ApplicationModel::whereNull('username')->count()) {
+            return response()->json('the num of ids is incorrect');
+        }
+
+        try {
+            DB::beginTransaction();
+            foreach ($ids as $id) {
+                DB::table('applications')->where('id', $id)->update(['priority' => $ord--]);
+            }
+            DB::commit();
+        } catch (\Exception $e) {
+            echo $e->getMessage(); exit;
+            DB::rollback();
+        }
+
+        $applications = ApplicationModel::whereNull('username')
+                                        ->orderBy('priority', 'desc')
+                                        ->get();
+
+        return response()->json($applications);
     }
 
     /**

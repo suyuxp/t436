@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\ApplicationModel;
-use \Firebase\JWT\JWT;
 
 class ApplicationController extends Controller
 {
@@ -17,6 +16,7 @@ class ApplicationController extends Controller
         $applications['public']  = ApplicationModel::where('username', null)
                                                    ->orderBy('priority', 'desc')
                                                    ->get();
+
         $applications['private'] = ApplicationModel::whereNotNull('username')
                                                    ->orderBy('priority', 'desc')
                                                    ->get();

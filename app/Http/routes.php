@@ -19,10 +19,12 @@ Route::group(['middleware' => 'cors'], function() {
     Route::get('applications', 'ApplicationController@index');
     Route::resource('applications/public', 'PublicApplicationController',
                     ['except' => ['create', 'edit']]);
+    Route::post('applications/public/sort', 'PublicApplicationController@sort');
 });
 
 Route::group(['middleware' => ['cors', 'jwt.auth']], function() {
     Route::resource('applications/private', 'PrivateApplicationController', 
                     ['except' => ['create', 'edit']]);
+    Route::post('applications/private/sort', 'PrivateApplicationController@sort');
 });
 
