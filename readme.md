@@ -10,13 +10,15 @@ docker环境变量有:
 
 - DB_PASSWORD: 数据库密码
 
+- JWT_KEY: jwt密钥
+
 ```
 // docker打包
 docker build -t t436 .
 
 // 运行单元测试
-docker run -it -P -e 'DB_CONNECTION=mysql' -e 'DB_HOST=192.168.1.101' -e 'DB_DATABASE=t436' -e 'DB_USERNAME=root' -e 'DB_PASSWORD=123456' t436 /phptest.sh
+docker run -it -P -e 'DB_CONNECTION=mysql' -e 'DB_HOST=192.168.1.101' -e 'DB_DATABASE=t436' -e 'DB_USERNAME=root' -e 'DB_PASSWORD=123456' -e 'JWT_key=123456' t436 /phptest.sh
 
 // 部署
-docker run -it -P -e 'DB_CONNECTION=mysql' -e 'DB_HOST=192.168.1.101' -e 'DB_DATABASE=t436' -e 'DB_USERNAME=root' -e 'DB_PASSWORD=123456' t436
+docker run -it -P -e 'DB_CONNECTION=mysql' -e 'DB_HOST=192.168.1.101' -e 'DB_DATABASE=t436' -e 'DB_USERNAME=root' -e 'DB_PASSWORD=123456' -e 'jwt_key=123456' t436
 ```
